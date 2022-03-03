@@ -1,9 +1,9 @@
-
 #### INITIALIZE ####
 list.of.packages <- c("vcfR", 
                       "tidyverse",
                       "janitor",
-                      "ggrepel")
+                      "ggrepel",
+                     "rstudioapi")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
@@ -11,10 +11,9 @@ library(tidyverse)
 library(ggrepel)
 library(janitor)
 library(vcfR)
+library(rstudioapi)
 
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-
-source("plot_R.r")
 
 #### FUNCTION ####
 get_newest_filename <-
@@ -39,23 +38,6 @@ selFILE <- get_newest_filename(DataPath="./",
 # strFILE <- "../opihiSK2017_WholeIsland.A4.5.5.Fltr21.1.FilterOurWacky_noNA_noOutliers_Str"
 idFILE <- "../sample_name_decode.tsv"
 vcfPATH = "../data_files/Pfalcifer.3.7.Fltr20.2.randSNPperLoc.vcf"
-
-#### FOLLOWING BAYESCAN MAN ####
-# plot
-results <- plot_bayescan(fstFILE, 
-                         FDR=fdrCUTOFF)
-
-#print # outliers and SNP ids
-results$nb_outliers
-results$outliers
-
-mydata=read.table(selFILE,
-                  colClasses="numeric")
-
-parameter="Fst1"
-plot(density(mydata[[parameter]]),xlab=parameter,main=paste(parameter,"posterior distribution"))
-
-bs_plot <- plot_bayescan(fstFILE)
 
 #### READ IN DATA ####
 
